@@ -6,7 +6,7 @@ import google.generativeai as genai
 
 st.set_page_config(page_title="Generador Charters | GM", page_icon="📄", layout="wide")
 
-# Ocultar menú lateral
+# Ocultar menú lateral para mantener la estética limpia
 st.markdown("""<style>[data-testid="collapsedControl"] { display: none; }</style>""", unsafe_allow_html=True)
 
 # Configuración de Gemini AI usando los secretos de Streamlit
@@ -17,6 +17,7 @@ try:
 except Exception:
     ia_disponible = False
 
+# Botón de regreso al portal principal
 if st.button("⬅️ Regresar al Portal de Inicio"):
     st.switch_page("app.py")
 
@@ -27,13 +28,14 @@ st.markdown("Captura ideas clave. El asistente de IA expandirá la información 
 if not ia_disponible:
     st.warning("⚠️ La API Key de Gemini no está configurada en los Secrets de Streamlit. La app funcionará en modo manual.")
 
+# Estructura de Pestañas (Tabs)
 tab1, tab2, tab3, tab4 = st.tabs(["1. Info General", "2. Alcance (Borrador)", "3. Cronograma", "4. Riesgos y Presupuesto"])
 
 with tab1:
     st.subheader("Información General")
     col1, col2 = st.columns(2)
     with col1:
-        nombre_proyecto = st.text_input("Nombre del Proyecto", placeholder="Ej. Estrategia Nacional SDX")
+        nombre_proyecto = st.text_input("Nombre del Proyecto", placeholder="Ej. Implementación mpservice SDX")
         cliente = st.text_input("Cliente", placeholder="Ej. Sodexo, Emerson, Jumex...")
         sponsor = st.text_input("Patrocinador (Sponsor)", value="Besco IMP, S.A. de C.V.")
     with col2:
@@ -52,7 +54,7 @@ with tab3:
     st.subheader("Cronograma de Hitos Principales")
     colA, colB, colC = st.columns(3)
     with colA:
-        hito1 = st.text_input("Hito 1", placeholder="Planeación y recursos")
+        hito1 = st.text_input("Hito 1", placeholder="Alta de usuarios e inventarios")
         fecha_h1 = st.date_input("Fecha Hito 1", key="f1")
     with colB:
         hito2 = st.text_input("Hito 2", placeholder="Despliegue operativo")
@@ -72,15 +74,16 @@ with tab4:
 
 st.divider()
 
+# Procesamiento y Generación del Documento
 if st.button("🚀 Procesar Project Charter con IA", type="primary", use_container_width=True):
     if not nombre_proyecto or not cliente:
-        st.error("Por favor, llena al menos el Nombre del Proyecto y el Cliente.")
+        st.error("Por favor, llena al menos el Nombre del Proyecto y el Cliente para continuar.")
     else:
         objetivo_final = objetivo_base
         entregables_final = entregables_base
         riesgos_final = riesgos_base
         
-        # Intervención de la IA
+        # Intervención de la Inteligencia Artificial
         if ia_disponible:
             with st.spinner("🧠 Analizando operación e inyectando estándar PMI..."):
                 prompt = f"""
@@ -113,7 +116,7 @@ if st.button("🚀 Procesar Project Charter con IA", type="primary", use_contain
                 except Exception as e:
                     st.warning(f"No se pudo conectar con la IA para la expansión. Se usará el texto original. (Error: {e})")
         
-        # Generación del DataFrame
+        # Estructuración de datos para Excel
         data = {
             "Área PMI": ["General", "General", "General", "General", "General", "General", 
                         "Alcance", "Alcance", "Alcance", 
@@ -131,7 +134,7 @@ if st.button("🚀 Procesar Project Charter con IA", type="primary", use_contain
         
         df = pd.DataFrame(data)
         
-        # Visualización previa para que veas el trabajo de la IA
+        # Vista Previa
         st.markdown("### 📋 Vista Previa del Documento Mejorado")
         st.dataframe(df, use_container_width=True)
         
@@ -146,6 +149,7 @@ if st.button("🚀 Procesar Project Charter con IA", type="primary", use_contain
         
         output.seek(0)
         
+        # Botón de Descarga Final
         st.download_button(
             label="📥 Descargar Project Charter Aprobado (.xlsx)",
             data=output,
