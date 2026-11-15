@@ -5,12 +5,12 @@ from datetime import date
 
 # 1. Configuración de la página (DEBE SER LA PRIMERA LÍNEA)
 st.set_page_config(
-    page_title="Portal Operativo | Besco", 
-    page_icon="🏢", 
+    page_title="Soluciones Integrales | GM", 
+    page_icon="🚀", 
     layout="wide"
 )
 
-# 2. Inyección de CSS para los Botones Azules Biselados (65% más grandes)
+# 2. Inyección de CSS para los Botones Azules Biselados
 st.markdown("""
     <style>
     /* Estilizar solo los botones definidos como type="primary" */
@@ -50,8 +50,8 @@ if 'pagina_actual' not in st.session_state:
 
 def pagina_inicio():
     """Pantalla principal con los botones grandes de navegación"""
-    st.title("🏢 Portal Central de Operaciones y Mantenimiento")
-    st.markdown("Bienvenido al ecosistema central. Besco IMP, S.A de C.V.")
+    st.title("🚀 Portal de Soluciones Integrales | Gerardo Méndez")
+    st.markdown("Plataforma central de herramientas personalizadas para la optimización de operaciones, mantenimiento y gestión de facilities.")
     st.markdown("---")
     
     st.write("") # Espaciado visual
@@ -61,24 +61,22 @@ def pagina_inicio():
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        # El type="primary" activa el diseño azul biselado
         if st.button("📄 Generador Charters", type="primary", use_container_width=True):
             st.session_state.pagina_actual = "Charters"
             st.rerun()
         st.info("Crea Actas de Constitución PMI (Formato Excel) estandarizadas para arranques de proyectos.")
     
     with col2:
-        if st.button("⚙️ Control Asistencia", type="primary", use_container_width=True):
-            st.session_state.pagina_actual = "Asistencia"
+        if st.button("🚧 Próxima App", type="primary", use_container_width=True):
+            st.session_state.pagina_actual = "Proxima_App"
             st.rerun()
-        st.warning("*(Próximamente)* Gestión y geolocalización de técnicos en sitio (MX10, MX11, etc.).")
+        st.warning("*(En desarrollo)* Espacio reservado para la próxima herramienta de tu portafolio.")
         
     with col3:
-        if st.button("📝 Cotizaciones", type="primary", use_container_width=True):
-            st.session_state.pagina_actual = "Cotizaciones"
+        if st.button("❄️ Carga Térmica", type="primary", use_container_width=True):
+            st.session_state.pagina_actual = "Carga_Termica"
             st.rerun()
-        st.success("*(Próximamente)* Motor de propuestas con aplicación de margen 0% y reportes fotográficos.")
-
+        st.success("*(Próximamente)* Calculadora de requerimientos y capacidad HVAC para proyectos e instalaciones.")
 
 def app_project_charter():
     """Módulo completo del Generador de Actas PMI"""
@@ -184,18 +182,17 @@ def app_project_charter():
 
 # --- LÓGICA DE NAVEGACIÓN PRINCIPAL ---
 
-# Evaluamos la página actual en memoria y renderizamos la función correspondiente
 if st.session_state.pagina_actual == "Inicio":
     pagina_inicio()
 elif st.session_state.pagina_actual == "Charters":
     app_project_charter()
-elif st.session_state.pagina_actual == "Asistencia":
-    st.warning("Módulo de Control de Asistencia en construcción.")
+elif st.session_state.pagina_actual == "Proxima_App":
+    st.warning("Módulo en construcción. Aquí configuraremos tu próxima herramienta.")
     if st.button("⬅️ Regresar al Portal de Inicio"):
         st.session_state.pagina_actual = "Inicio"
         st.rerun()
-elif st.session_state.pagina_actual == "Cotizaciones":
-    st.warning("Módulo de Cotizaciones en construcción.")
+elif st.session_state.pagina_actual == "Carga_Termica":
+    st.warning("Módulo de Cálculo de Carga Térmica en construcción.")
     if st.button("⬅️ Regresar al Portal de Inicio"):
         st.session_state.pagina_actual = "Inicio"
         st.rerun()
